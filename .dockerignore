@@ -1,0 +1,8 @@
+.git
+.gitignore
+*.pdf
+*.pdf:Zone.Identifier
+*.png
+*.log
+scripts/
+iniciar_simulado.sh

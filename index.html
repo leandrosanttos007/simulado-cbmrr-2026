@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulado Interativo CBMRR 2026 • Soldado Combatente | Foco IDECAN</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#13151b',
+              card: '#1f232c',
+              border: '#2e3544',
+              blue: '#3b82f6',
+              green: '#10b981',
+              red: '#ef4444'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#13151b] text-slate-100 flex flex-col min-h-screen antialiased selection:bg-blue-600 selection:text-white">
+
+  <!-- Top Announcement & Header -->
+  <header class="bg-[#181b22] border-b border-slate-800/80 sticky top-0 z-40 backdrop-blur-md bg-opacity-95">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Brand & Contest Tag -->
+      <div class="flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 via-amber-500 to-red-500 flex items-center justify-center shadow-lg shadow-red-500/20 text-white font-black text-xl">
+          🚒
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-bold text-white tracking-tight">Simulado CBMRR 2026</h1>
+            <span class="bg-blue-500/10 text-blue-400 border border-blue-500/30 text-[10px] sm:text-xs font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">Banca IDECAN</span>
+          </div>
+          <p class="text-xs text-slate-400 font-medium">Soldado Combatente • Edital nº 01/2026</p>
+        </div>
+      </div>
+
+      <!-- Live Countdown Badge -->
+      <div class="flex items-center gap-2 bg-[#1f242e] border border-amber-500/30 px-3.5 py-1.5 rounded-xl shadow-inner text-xs sm:text-sm">
+        <span class="text-amber-400">⏳</span>
+        <span class="text-slate-300 font-medium">Prova Objetiva:</span>
+        <span id="countdown-days" class="text-amber-400 font-bold">27/09/2026</span>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button id="btn-performance-report" class="bg-[#1f242e] hover:bg-[#282f3d] text-slate-200 border border-slate-700/80 hover:border-slate-500 text-xs font-semibold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+          <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          <span class="hidden sm:inline">Relatório de</span> Rendimento
+        </button>
+        <button id="btn-reset-simulado" class="bg-[#1f242e] hover:bg-rose-950/40 text-slate-300 hover:text-rose-300 border border-slate-700/80 hover:border-rose-500/50 text-xs font-medium px-3 py-2 rounded-xl transition flex items-center gap-1.5" title="Reiniciar estatísticas e respostas">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          <span class="hidden md:inline">Reiniciar</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Live Performance Scoreboard Bar -->
+    <div class="bg-[#14161c] border-t border-slate-800/80 py-2.5 px-4 sm:px-8">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 text-xs">
+        
+        <!-- Metrics -->
+        <div class="flex items-center flex-wrap gap-4 sm:gap-6">
+          <div class="flex items-center gap-2">
+            <span class="text-slate-400">Respondidas:</span>
+            <span id="stat-answered" class="font-bold text-white bg-slate-800 px-2 py-0.5 rounded-md">0</span>
+            <span class="text-slate-500">/ 500</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="text-slate-400">Acertos:</span>
+            <span id="stat-correct" class="font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded-md">0</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="text-slate-400">Erros:</span>
+            <span id="stat-wrong" class="font-bold text-rose-400 bg-rose-950/60 border border-rose-500/30 px-2 py-0.5 rounded-md">0</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="text-slate-400">Aproveitamento:</span>
+            <span id="stat-accuracy" class="font-bold text-blue-400 bg-blue-950/60 border border-blue-500/30 px-2 py-0.5 rounded-md">0%</span>
+          </div>
+        </div>
+
+        <!-- Global Progress Bar -->
+        <div class="w-full sm:w-48 flex items-center gap-2">
+          <div class="flex-1 bg-slate-800 h-2 rounded-full overflow-hidden">
+            <div id="progress-bar-fill" class="bg-gradient-to-r from-blue-500 to-emerald-400 h-full w-0 transition-all duration-300"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Simulado 100 Timer Banner (When in Simulado Geral mode) -->
+  <div id="simulado-timer-banner" class="hidden bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-blue-900/40 border-b border-blue-500/30 py-2 px-4 text-center">
+    <div class="max-w-4xl mx-auto flex items-center justify-center gap-3 text-sm">
+      <span class="inline-block w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
+      <span class="text-slate-300 font-medium">Cronômetro Oficial de Prova (4 horas):</span>
+      <span id="simulado-timer-text" class="font-mono text-base font-bold text-amber-300 bg-black/40 px-2.5 py-0.5 rounded border border-amber-500/40">04:00:00</span>
+    </div>
+  </div>
+
+  <!-- Main Content Layout -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
+
+    <!-- Mode Selector Navigation Tabs -->
+    <div class="flex flex-wrap items-center gap-2 p-1.5 bg-[#181b22] border border-slate-800 rounded-2xl">
+      <button id="btn-mode-disciplina" class="flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold transition bg-blue-600 text-white shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+        <span>Por Disciplina (50Q)</span>
+      </button>
+
+      <button id="btn-mode-simulado100" class="flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold transition bg-[#1e222a] text-slate-300 hover:text-white flex items-center justify-center gap-2">
+        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span>Simulado Geral (100Q)</span>
+      </button>
+
+      <button id="btn-mode-erros" class="flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold transition bg-[#1e222a] text-slate-300 hover:text-white flex items-center justify-center gap-2">
+        <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        <span>Revisar Erros</span>
+      </button>
+
+      <button id="btn-mode-favoritas" class="flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold transition bg-[#1e222a] text-slate-300 hover:text-white flex items-center justify-center gap-2">
+        <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+        <span>Marcadas</span>
+      </button>
+    </div>
+
+    <!-- Disciplines Pills (Scrollable horizontally) -->
+    <div id="discipline-bar-container" class="flex flex-col gap-2">
+      <div class="flex items-center justify-between text-xs text-slate-400 px-1">
+        <span class="font-semibold uppercase tracking-wider">Disciplinas Oficiais do Edital (50 questões cada):</span>
+        <span>Clique para alternar</span>
+      </div>
+      <div id="discipline-pills" class="flex gap-2.5 overflow-x-auto pb-2 pt-1 no-scrollbar">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Active View Header & Filter Bar -->
+    <div class="bg-[#181b22] border border-slate-800 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2.5">
+          <h2 id="active-view-title" class="text-lg sm:text-xl font-bold text-white">Língua Portuguesa</h2>
+          <span id="question-count-badge" class="bg-blue-950 text-blue-400 border border-blue-500/30 text-xs font-semibold px-2.5 py-0.5 rounded-full">50 questões</span>
+        </div>
+        <p id="active-view-subtitle" class="text-xs sm:text-sm text-slate-400 mt-1">Caderno Temático Oficial • Padrão IDECAN</p>
+      </div>
+
+      <!-- Status Filters (Todas / Pendentes / Acertos / Erros) -->
+      <div class="flex items-center flex-wrap gap-1.5 bg-[#14161c] p-1 rounded-xl border border-slate-800 self-start md:self-auto text-xs">
+        <button data-filter="todas" class="filter-btn px-3 py-1.5 rounded-lg font-medium transition bg-blue-600 text-white">Todas</button>
+        <button data-filter="pendentes" class="filter-btn px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-white">Pendentes</button>
+        <button data-filter="acertos" class="filter-btn px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-white">Acertos</button>
+        <button data-filter="erros" class="filter-btn px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-white">Erros</button>
+      </div>
+    </div>
+
+    <!-- Question Mini Matrix (Direct question jumping 1..50) -->
+    <div class="bg-[#181b22] border border-slate-800/80 rounded-2xl p-4">
+      <div class="flex items-center justify-between text-xs text-slate-400 mb-2.5">
+        <span class="font-medium flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+          Grade de Navegação Rápida
+        </span>
+        <div class="flex items-center gap-3">
+          <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-slate-600"></span> Pendente</span>
+          <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Acerto</span>
+          <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Erro</span>
+        </div>
+      </div>
+      <div id="question-matrix" class="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto pr-1">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- PRIMARY QUESTION CARD (Reproducing the exact UI in the screenshots) -->
+    <div id="question-card" class="bg-[#181b22] border border-slate-800 rounded-3xl p-5 sm:p-8 shadow-xl flex flex-col gap-6">
+      
+      <!-- Question Meta Info -->
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+        <div class="flex flex-wrap items-center gap-2">
+          <span id="q-subject-badge" class="bg-blue-600/20 text-blue-400 border border-blue-500/30 text-xs font-semibold px-3 py-1 rounded-lg">Língua Portuguesa</span>
+          <span id="q-origin-badge" class="bg-slate-800 text-slate-300 text-xs px-2.5 py-1 rounded-lg font-medium">IDECAN</span>
+          <span id="q-year-badge" class="bg-slate-800 text-slate-300 text-xs px-2.5 py-1 rounded-lg font-medium">2025</span>
+          <span id="q-weight-text" class="text-xs text-slate-400 font-medium">Peso: 1.00 pt</span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span id="q-number-text" class="text-xs font-bold text-slate-400">Questão 1 de 50</span>
+          <button id="btn-favorite" class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-[#202530] border border-slate-700 hover:border-slate-500 transition">
+            ☆ Salvar
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Enunciado (Statement matching screenshot text) -->
+      <div id="q-statement" class="text-base sm:text-lg lg:text-xl font-medium text-slate-100 leading-relaxed">
+        Carregando enunciado da questão...
+      </div>
+
+      <!-- Options Container (Alternatives A, B, C, D, E) -->
+      <div id="q-options-container" class="flex flex-col gap-3.5">
+        <!-- Rendered by JS matching exact card styles, green/red feedback & justifications -->
+      </div>
+
+      <!-- Full Explanation Collapsible Section -->
+      <div id="explanation-section" class="hidden transition-all duration-300">
+        <div id="explanation-content">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- Bottom Action Bar (Left: ✨ Explicar, Right: Anterior / Próxima) -->
+      <div class="flex items-center justify-between gap-4 pt-4 border-t border-slate-800/80 mt-2">
+        
+        <!-- Left: Explicar button matching screenshot icon & style -->
+        <button id="btn-toggle-explanation" class="bg-[#1f242e] hover:bg-[#282f3d] text-slate-200 border border-slate-700/80 hover:border-slate-500 text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition flex items-center gap-2 shadow-sm">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          <span>Explicar</span>
+        </button>
+
+        <!-- Right: Anterior & Próxima button matching screenshot blue style -->
+        <div class="flex items-center gap-2.5">
+          <button id="btn-prev-question" class="bg-[#1f242e] hover:bg-[#282f3d] disabled:opacity-40 disabled:hover:bg-[#1f242e] text-slate-200 border border-slate-700/80 text-xs sm:text-sm font-medium px-4 py-2.5 rounded-xl transition flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            <span class="hidden sm:inline">Anterior</span>
+          </button>
+
+          <button id="btn-next-question" class="bg-[#2563eb] hover:bg-blue-600 disabled:opacity-40 text-white font-semibold text-xs sm:text-sm px-6 py-2.5 rounded-xl transition shadow-lg shadow-blue-500/20 flex items-center gap-2">
+            <span>Próxima</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Performance Report Modal -->
+  <div id="report-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div class="bg-[#181b22] border border-slate-700 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 flex flex-col gap-6 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div>
+          <h3 class="text-xl font-bold text-white">Relatório de Rendimento</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Diagnóstico Oficial conforme Critérios do Edital CBMRR 2026</p>
+        </div>
+        <button id="btn-close-report" class="text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800/60 hover:bg-slate-800 transition">
+          ✕
+        </button>
+      </div>
+
+      <div id="report-modal-content">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-[#101217] border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p>Simulado Interativo Soldado CBMRR 2026 • 500 Questões Foco IDECAN • Baseado no Edital nº 01/2026</p>
+      <p>Data Oficial da Prova: <span class="text-slate-400 font-semibold">27 de Setembro de 2026</span></p>
+    </div>
+  </footer>
+
+  <!-- Script Inclusions: Full question database + Application code -->
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

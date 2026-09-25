@@ -1,0 +1,85 @@
+/* Custom scrollbar and animations matching screenshot */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg-main: #13151b;
+  --bg-card: #1f232c;
+  --bg-card-hover: #262c37;
+  --border-card: #2e3544;
+  --correct-green: #10b981;
+  --wrong-red: #ef4444;
+  --primary-blue: #3b82f6;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-main);
+  color: #f1f5f9;
+  min-height: 100vh;
+}
+
+/* Custom Scrollbar matching dark aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #181b22;
+}
+::-webkit-scrollbar-thumb {
+  background: #333a48;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Question Option States */
+.option-card {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+}
+
+.option-card.unanswered:hover {
+  border-color: #64748b;
+  background-color: var(--bg-card-hover);
+  transform: translateY(-1px);
+}
+
+.option-card.correct-selected {
+  border-color: #10b981 !important;
+  background-color: rgba(16, 185, 129, 0.08) !important;
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.3);
+}
+
+.option-card.correct-revealed {
+  border-color: #10b981 !important;
+  background-color: rgba(16, 185, 129, 0.05) !important;
+}
+
+.option-card.wrong-selected {
+  border-color: #ef4444 !important;
+  background-color: rgba(239, 68, 68, 0.08) !important;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.3);
+}
+
+.option-card.dimmed {
+  opacity: 0.85;
+}
+
+/* Smooth fade in */
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

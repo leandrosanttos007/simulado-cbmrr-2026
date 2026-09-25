@@ -1,0 +1,5 @@
+*.pdf
+*.pdf:Zone.Identifier
+*.png
+*.log
+.DS_Store

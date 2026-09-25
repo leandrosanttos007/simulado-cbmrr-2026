@@ -1,0 +1,10 @@
+services:
+  simulado-cbmrr:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: leandrosanttos007/simulado-cbmrr-2026:latest
+    container_name: simulado-cbmrr-2026
+    restart: unless-stopped
+    ports:
+      - "8085:80"
