@@ -58,6 +58,9 @@ Clone o repositório e execute:
 docker compose up -d
 ```
 
+O `docker-compose.yml` expõe o serviço na porta **8085** (diferente da porta 8080 usada no exemplo de `docker run` acima). Acesse no navegador:
+👉 [http://localhost:8085](http://localhost:8085)
+
 Para parar o serviço:
 ```bash
 docker compose down
